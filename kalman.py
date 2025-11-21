@@ -82,4 +82,4 @@ while True:
     # Yaw will drift (no accelerometer reference)
     kalman_yaw   = kf_yaw.update(0.0, gyro_yaw_rate, dt)
 
-    print(f"Pitch: {kalman_pitch:.2f}°, Roll: {kalman_roll:.2f}°, Yaw: {kalman_yaw:.2f}°")
+    print(f"Pitch: {kalman_pitch:.2f}°, Roll: {kalman_roll:.2f}°, Yaw: {kalman_yaw:.2f}°")git 
