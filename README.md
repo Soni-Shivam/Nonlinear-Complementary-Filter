@@ -1,10 +1,7 @@
-# IMU Filter & Visualization Workspace
-
-Small collection of IMU firmware and Python tools for TRIAD / complementary filters, visualization, and serial logging.
-
+#  Implementation of TRI-axis Attitude Determination, and experimental implementation of Nonlinear Complementary Filter using LSM9DS1 (Acclerometer, Magnetometer, gYro)
 ## Overview
-- Arduino / Teensy firmware implements TRIAD and multiple complementary filters and prints quaternions to serial.
-  - Primary firmware: [triad.ino](triad.ino) and [5filters_unstable.ino](5filters_unstable.ino)
+- The ino files implements TRIAD and multiple complementary filters and prints quaternions to serial.
+  - Primary: [triad.ino](triad.ino) and [5filters_unstable.ino](5filters_unstable.ino)
   - Working calibration variant: [triad_working.ino](triad_working.ino)
 - PC-side tools read serial data and visualize quaternions as 3D cubes or log raw output:
   - Visualizers: [tp_modifed.py](tp_modifed.py), [tp_monitor.py](tp_monitor.py), [tp_modified_ 5filters.py](tp_modified_ 5filters.py)
@@ -24,10 +21,6 @@ Small collection of IMU firmware and Python tools for TRIAD / complementary filt
   - alternative working example and `gyroIntegrate` helper: [`gyroIntegrate`](triad_working.ino)
 - [tp_modifed.py](tp_modifed.py)
   - serial input reader: [`serial_read`](tp_modifed.py)
-  - DCM builder: [`assign_DCM`](tp_modifed.py)
-- [tp_monitor.py](tp_monitor.py)
-  - serial input reader: [`serial_read`](tp_monitor.py)
-  - DCM builder: [`assign_DCM`](tp_monitor.py)
 - [tp_modified_ 5filters.py](tp_modified_ 5filters.py)
   - multi-filter visual tool: [`serial_read`](tp_modified_ 5filters.py), [`get_rotation_matrix`](tp_modified_ 5filters.py), [`draw_cube`](tp_modified_ 5filters.py)
 - [IMUserial.py](IMUserial.py)
@@ -39,18 +32,11 @@ Small collection of IMU firmware and Python tools for TRIAD / complementary filt
 
 ## Quickstart
 
-1. Build and upload firmware to your target (Teensy / Arduino):
+1. Build and upload firmware to your target (here esp32):
    - Use [triad.ino](triad.ino) or [5filters_unstable.ino](5filters_unstable.ino) depending on desired output mode.
    - The firmware prints quaternions to Serial at 115200 bps using `printQuaternionFlat`.
 
-2. Log serial to file (optional):
-   - Edit port in [IMUserial.py](IMUserial.py) if needed then run:
-     ```sh
-     python3 IMUserial.py
-     ```
-   - This writes incoming lines to .
-
-3. Visualize in realtime:
+2. Visualize in realtime:
    - Ensure Python packages installed:
      ```sh
      pip install numpy pygame pyserial
@@ -60,7 +46,7 @@ Small collection of IMU firmware and Python tools for TRIAD / complementary filt
      - 5-filter comparison: run [tp_modified_ 5filters.py](tp_modified_ 5filters.py)
    - The visualizers expect comma-separated quaternion(s) from the serial device. See , , and [`serial_read`](tp_modified_ 5filters.py) for parsing details.
 
-4. Kalman demo:
+Kalman demo:
    -  includes a small  class  and an example main loop that reads comma-separated accel/gyro lines.
 
 ## Data format notes
@@ -68,22 +54,6 @@ Small collection of IMU firmware and Python tools for TRIAD / complementary filt
 - See the captured example data in .
 
 ## Tips & Troubleshooting
-- Serial port: change the port string in Python scripts (`/dev/ttyUSB0`) to match the system. Visualizers attempt auto-detection in some variants.
+- Serial port: change the port string in Python scripts (`/dev/ttyUSB0`) to match the system.
 - If visualization shows flipped axes or inverted cubes, inspect the DCM creation in  / [`get_rotation_matrix`](tp_modified_ 5filters.py) and remapping in the Arduino TRIAD (e.g., body remap in triad.ino).
 - Use the logged  for offline plotting and debugging.
-
-## Contributing
-- Keep Arduino firmware and Python visualizers aligned on the serial format.
-- Preferred edits: improve serial robustness in  /  and add CLI args for port/baud.
-
----
-For quick reference, open these files in the workspace:
-- 
-- 
-- 
-- 
-- 
-- [tp_modified_ 5filters.py](tp_modified_ 5filters.py)
-- 
-- 
-- 
